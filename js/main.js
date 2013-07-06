@@ -30,7 +30,7 @@ var Main = {
 
       var latitude = Main.latitude;
       var longitude = Main.longitude;
-      var heading = Main.heading + 90 + 180;
+      var heading = Main.heading + 90;
       var distance = Main.distance;
       distance *= 1000;
 
@@ -43,7 +43,7 @@ var Main = {
       var dLatitude = dLongitude * Math.tan(radHeading)  * Math.cos(radLatitude);
 
       var targetRadLatitude = radLatitude + dLatitude;
-      var targetRadLongitude = radLongitude + dLongitude;
+      var targetRadLongitude = radLongitude - dLongitude;
 
       var targetLatitude = Main.toDegree(targetRadLatitude);
       var targetLongitude = Main.toDegree(targetRadLongitude);
