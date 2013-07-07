@@ -72,7 +72,7 @@ html, body {
 }
 
 #distance:after {
-  content: "k";
+  content: "km";
 }
 
 #latitude:before {
