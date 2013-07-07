@@ -16,8 +16,21 @@ var Main = {
     return radian * 180.0 / Math.PI;
   },
 
+  middlize: function(height, component) {
+    var hOfComponent = component.offsetHeight;
+    var yOfComponent = (height - component.offsetHeight) / 2;
+    component.style.top = yOfComponent+"px";
+  },
+
   init: function() {
     var audio = new Audio("../resources/sounds/shutter.ogg");
+
+    //centering ---
+    var height = window.innerWidth > window.innerHeight ? window.innerHeight : window.innerWidth;
+    Main.middlize(height, document.getElementById("take-button"));
+    Main.middlize(height, document.getElementById("distance"));
+    //-------------
+
 
     Main.latitude = 0;
     Main.longitude = 0;
@@ -103,7 +116,6 @@ var Main = {
       }
     });
 
-//    var container = document.getElementById("test");
     var container = document;
     /*
     container.addEventListener("touchstart", function(e) {
