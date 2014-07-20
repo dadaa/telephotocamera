@@ -31,6 +31,15 @@ html, body {
   pointer-events: none;
 }
 
+#map {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  pointer-events: none;
+}
+
 #meta {
   pointer-events: none;
   position: absolute;
@@ -111,6 +120,7 @@ html, body {
   top: 50%;
   width: 34px;
   height: 45px;
+  background-color: red;
   background: url(images/hud_button_underlay_focus.png) no-repeat -5px 0px;
 }
 

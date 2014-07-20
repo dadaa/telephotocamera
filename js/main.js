@@ -32,9 +32,9 @@ var Main = {
     //-------------
 
 
-    Main.latitude = 0;
-    Main.longitude = 0;
-    Main.heading = 0;
+    Main.latitude = 34.5;
+    Main.longitude = 135.3;
+    Main.heading = 45;
     Main.distance = 0;
 
     var LAT_METER = 2*Math.PI*R_EARTH / 360;
@@ -49,7 +49,7 @@ var Main = {
       var longitude = Main.longitude;
       var heading = Main.heading + 90;
       var distance = Main.distance;
-      distance *= 1000;
+      distance *= 10000;
 
       //radian 
       var radLatitude = Main.toRadian(latitude);
@@ -71,30 +71,55 @@ var Main = {
       targetLongitudeContainer.textContent = targetLongitude;
 
       //find from flickr
-      var searchurl = "http://www.flickr.com/services/rest/?"
-              + "api_key="+FLICKR_API_KEY
-              + "&method=flickr.photos.search"
-              + "&per_page=3"
-              + "&format=json"
-              + "&jsoncallback=Main.loadPhotos"
-              + "&lon="+targetLongitude
-              + "&lat="+targetLatitude
-              + "&radius=30";
-      var scriptElement = document.createElement("script");
-      scriptElement.src = searchurl;
-      document.body.appendChild(scriptElement);
-
+      var searchUrl = "https://www.flickr.com/services/rest/";
+      var searchParameter = {        
+        api_key: FLICKR_API_KEY,
+        method: "flickr.photos.search",
+        per_page: 3,
+        format: "json",
+        nojsoncallback: 1,
+        lon: targetLongitude,
+        lat: targetLatitude,
+        radius: 30
+      };
+      $.ajax({
+        url: searchUrl,
+        dataType: "json",
+        data: searchParameter,
+        xhrFields: {
+          mozSystem: true
+        },
+        success: function(json) {
+          Main.loadPhotos(json);
+        },
+        error: function(e) {
+          alert("search error:\n" + e.responseText);
+        }
+      });
       //find location
-      var placeurl = "http://www.flickr.com/services/rest/?"
-      + "api_key="+FLICKR_API_KEY
-      + "&method=flickr.places.findByLatLon"
-      + "&format=json"
-      + "&jsoncallback=Main.loadPlace"
-      + "&lon="+targetLongitude
-      + "&lat="+targetLatitude;
-      var placeScriptElement = document.createElement("script");
-      placeScriptElement.src = placeurl;
-      document.body.appendChild(placeScriptElement);
+      var placeUrl = "https://www.flickr.com/services/rest/";
+      var placeParameter = {        
+        api_key: FLICKR_API_KEY,
+        method: "flickr.places.findByLatLon",
+        format: "json",
+        nojsoncallback: 1,
+        lon: targetLongitude,
+        lat: targetLatitude
+      };
+      $.ajax({
+        url: placeUrl,
+        dataType: "json",
+        data: placeParameter,
+        xhrFields: {
+          mozSystem: true
+        },
+        success: function(json) {
+          Main.loadPlace(json);
+        },
+        error: function(e) {
+          alert("place error:\n" + e.responseText);
+        }
+      });
     }, true);
 
     navigator.geolocation.watchPosition(function(position) {
@@ -117,15 +142,6 @@ var Main = {
     });
 
     var container = document;
-    /*
-    container.addEventListener("touchstart", function(e) {
-      var distance = Main.getDistanceFromTouch(e);
-      if (distance != -1) {
-        return;
-      }
-      Main.startDrag(distance);
-    }, true, true);
-    */
     container.addEventListener("touchmove", function(e) {
       var distance = Main.getDistanceFromTouch(e);
       if (distance != -1) {

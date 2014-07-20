@@ -1,20 +1,21 @@
 {
   "name": "telephotocamera",
   "description": "telephoto camera",
-  "type": "certified",
+  "type": "privileged",
   "launch_path": "/index.html",
   "orientation": "landscape-primary",
   "fullscreen": true,
   "developer": {
     "name": "Daisuke Aakatsuka",
-    "url": "https://github.com/dadaa/"
+    "url": "https://github.com/dadaa/telephotocamera"
   },
   "permissions": {
     "device-storage:pictures":{ "access": "readwrite" },
     "settings":{ "access": "readonly" },
     "camera":{},
     "geolocation":{},
-    "audio-channel-notification":{}
+    "audio-channel-notification":{},
+    "systemXHR": {}
   },
   "locales": {
     "en-US": {
